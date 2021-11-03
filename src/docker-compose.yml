@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  entitycore:
+    image: ${DOCKER_REGISTRY-}entitycore
+    build:
+      context: .
+      dockerfile: EntityCore/EntityCore/Dockerfile
+
+  entitydb:
+     image: mcr.microsoft.com/mssql/server:2019-latest
+
+
+volumes:
+   entitymssql_data:
+   entitymssql_user:
+  
