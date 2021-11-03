@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  entitycore:
+    container_name: entitycore
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:EntityDbConnectionString=Server=entitydb;Database=EntityDB;MultipleActiveResultSets=True;User Id=sa;Password=AsH12345678"
+      - "ConnectionStrings:FluentEntityDbConnectionString=Server=entitydb;Database=FluentEntityDB;MultipleActiveResultSets=True;User Id=sa;Password=AsH12345678"
+    ports:
+      - "9001:80"
+
+  entitydb:
+    container_name: entitydb
+    environment:
+        SA_PASSWORD: 'AsH12345678'
+        ACCEPT_EULA: 'Y'
+    restart: always
+    ports:
+        - "4141:1433"
+    volumes:
+        - entitymssql_data:/var/opt/mssql
+        - entitymssql_user:/var/opt/sqlserver
