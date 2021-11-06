@@ -204,6 +204,21 @@ namespace EntityCore.Controllers
 			bookTemp1.BookDetail.Weight = 3333;
 			dbContext.Books.Attach(bookTemp2);
 			dbContext.SaveChanges();
+			List<BookDetailsFromView> list1 = dbContext.BookDetailsFromViews.ToList();
+			BookDetailsFromView list2 = dbContext.BookDetailsFromViews.FirstOrDefault();
+			IQueryable<BookDetailsFromView> list3 = dbContext.BookDetailsFromViews.Where(u => u.Price > 500);
+
+			//RAW SQL
+
+			var bookRaw = dbContext.Books.FromSqlRaw("Select * from dbo.books").ToList();
+
+			//SQL Injection attack prone
+			int id = 2;
+			List<Book> bookTemp3 = dbContext.Books.FromSqlInterpolated($"Select * from dbo.books where Book_Id={id}").ToList();
+			List<Book> booksSproc = dbContext.Books.FromSqlInterpolated($" EXEC dbo.getAllBookDetails {id}").ToList();
+			 
+			List<Book> BookFilter1 = dbContext.Books.Include(e => e.BookAuthors.Where(p => p.Author_Id == 5)).ToList();
+			List<Book> BookFilter2 = dbContext.Books.Include(e => e.BookAuthors.OrderByDescending(p => p.Author_Id).Take(2)).ToList();
 			return RedirectToAction(nameof(Index));
 		}
 	}

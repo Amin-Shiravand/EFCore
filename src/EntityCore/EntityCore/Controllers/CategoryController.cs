@@ -1,10 +1,11 @@
 ﻿using EntityCoreDataAceess.Data;
 using EntityCoreModel.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace EntityCore.Controllers
 {
@@ -19,7 +20,7 @@ namespace EntityCore.Controllers
 
 		public IActionResult Index()
 		{
-			List<Category> objList = dbContext.Categories.ToList();
+			List<Category> objList = dbContext.Categories.AsNoTracking().ToList();
 			return View(objList);
 		}
 
