@@ -12,6 +12,7 @@ namespace EntityCoreDataAceess.Data
 		public DbSet<Author> Authors { get; set; }
 		public DbSet<BookAuthor> BookAuthors { get; set; }
 		public DbSet<Category> Categories { get; set; }
+		public DbSet<BookDetailsFromView> BookDetailsFromViews { get; set; }
 
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> Options) : base(Options)
@@ -24,6 +25,7 @@ namespace EntityCoreDataAceess.Data
 			//base.OnModelCreating(modelBuilder);
 			//Composite Key for BookAuthor
 			modelBuilder.Entity<BookAuthor>().HasKey(bookAuthor => new { bookAuthor.Author_Id, bookAuthor.Book_Id });
+			modelBuilder.Entity<BookDetailsFromView>().HasNoKey().ToView("GetOnlyBookDetails");
 		}
 	}
 }
